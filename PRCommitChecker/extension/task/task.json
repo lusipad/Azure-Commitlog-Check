@@ -1,0 +1,56 @@
+{
+    "id": "8a8f6d5e-f5d0-4e1b-8a0c-7c8d8a0e5e5e",
+    "name": "PRCommitChecker",
+    "friendlyName": "PR Commit Message Checker",
+    "description": "检查PR的commit message是否符合规范",
+    "helpMarkDown": "[了解更多](https://github.com/your-repo/pr-commit-checker)",
+    "category": "Utility",
+    "author": "Your Company",
+    "version": {
+        "Major": 1,
+        "Minor": 0,
+        "Patch": 0
+    },
+    "instanceNameFormat": "检查PR $(pullRequestId)的Commit Message",
+    "inputs": [
+        {
+            "name": "pattern",
+            "type": "string",
+            "label": "Commit Message Pattern",
+            "defaultValue": "^(feat|fix|docs|style|refactor|perf|test|chore)(\\(.+\\))?: .{1,50}",
+            "required": false,
+            "helpMarkDown": "用于验证commit message的正则表达式模式"
+        },
+        {
+            "name": "autoDetect",
+            "type": "boolean",
+            "label": "自动检测PR",
+            "defaultValue": "true",
+            "required": false,
+            "helpMarkDown": "自动检测当前分支的PR ID，无需手动指定"
+        },
+        {
+            "name": "pullRequestId",
+            "type": "string",
+            "label": "Pull Request ID",
+            "required": false,
+            "helpMarkDown": "如果不使用自动检测，可以手动指定PR ID",
+            "visibleRule": "autoDetect = false"
+        },
+        {
+            "name": "repository",
+            "type": "string",
+            "label": "仓库名称",
+            "required": false,
+            "helpMarkDown": "仓库名称，用于自动检测PR时。如果留空，将尝试自动检测。"
+        }
+    ],
+    "execution": {
+        "PowerShell3": {
+            "target": "run.ps1",
+            "platforms": [
+                "windows"
+            ]
+        }
+    }
+}

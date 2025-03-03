@@ -1,0 +1,40 @@
+{
+    "manifestVersion": 1,
+    "id": "pr-commit-checker",
+    "name": "PR Commit Message Checker",
+    "version": "1.0.0",
+    "publisher": "YourCompany",
+    "targets": [
+        {
+            "id": "Microsoft.VisualStudio.Services"
+        }
+    ],
+    "description": "检查PR的commit message是否符合规范",
+    "categories": [
+        "Azure Pipelines"
+    ],
+    "icons": {
+        "default": "images/extension-icon.png"
+    },
+    "files": [
+        {
+            "path": "images",
+            "addressable": true
+        },
+        {
+            "path": "task"
+        }
+    ],
+    "contributions": [
+        {
+            "id": "pr-commit-checker-task",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "task"
+            }
+        }
+    ]
+}
