@@ -1,89 +1,65 @@
-name: Release
+name: Create Release
 
 on:
   push:
     tags:
-      - 'v*' # 当推送以 v 开头的标签时触发，例如 v1.0.0
+      - 'v*'
 
 jobs:
-  build:
-    runs-on: windows-latest
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
     
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+    - uses: actions/checkout@v3
     
     - name: Setup .NET
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '8.0.x'
-    
-    - name: Restore dependencies
-      run: dotnet restore "Azure-Commitlog-Check/Azure-Commitlog-Check.csproj"
-    
-    - name: Build
-      run: dotnet build "Azure-Commitlog-Check/Azure-Commitlog-Check.csproj" --configuration Release --no-restore
-    
-    # 单文件发布 - Windows    
-    - name: Publish for Windows (Single File)
-      run: dotnet publish "Azure-Commitlog-Check/Azure-Commitlog-Check.csproj" -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -o ./publish/win-x64/single-file
-    
-    - name: Zip Windows single-file build
-      run: Compress-Archive -Path ./publish/win-x64/single-file/* -DestinationPath ./publish/Azure-Commitlog-Check-win-x64.zip
-      shell: pwsh
-    
-    # DLL发布 - Windows
-    - name: Publish DLLs for Windows
-      run: dotnet publish "Azure-Commitlog-Check/Azure-Commitlog-Check.csproj" -c Release -r win-x64 --self-contained true -p:PublishSingleFile=false -o ./publish/win-x64/dlls
-    
-    - name: Zip Windows DLLs
-      run: Compress-Archive -Path ./publish/win-x64/dlls/* -DestinationPath ./publish/Azure-Commitlog-Check-win-x64-dlls.zip
-      shell: pwsh
-    
-    # 单文件发布 - Linux
-    - name: Publish for Linux (Single File)
-      run: dotnet publish "Azure-Commitlog-Check/Azure-Commitlog-Check.csproj" -c Release -r linux-x64 --self-contained true -p:PublishSingleFile=true -o ./publish/linux-x64/single-file
-    
-    - name: Zip Linux single-file build
-      run: Compress-Archive -Path ./publish/linux-x64/single-file/* -DestinationPath ./publish/Azure-Commitlog-Check-linux-x64.zip
-      shell: pwsh
-    
-    # DLL发布 - Linux
-    - name: Publish DLLs for Linux
-      run: dotnet publish "Azure-Commitlog-Check/Azure-Commitlog-Check.csproj" -c Release -r linux-x64 --self-contained true -p:PublishSingleFile=false -o ./publish/linux-x64/dlls
-    
-    - name: Zip Linux DLLs
-      run: Compress-Archive -Path ./publish/linux-x64/dlls/* -DestinationPath ./publish/Azure-Commitlog-Check-linux-x64-dlls.zip
-      shell: pwsh
-    
-    # 单文件发布 - macOS
-    - name: Publish for macOS (Single File)
-      run: dotnet publish "Azure-Commitlog-Check/Azure-Commitlog-Check.csproj" -c Release -r osx-x64 --self-contained true -p:PublishSingleFile=true -o ./publish/osx-x64/single-file
-    
-    - name: Zip macOS single-file build
-      run: Compress-Archive -Path ./publish/osx-x64/single-file/* -DestinationPath ./publish/Azure-Commitlog-Check-osx-x64.zip
-      shell: pwsh
-
-    # DLL发布 - macOS
-    - name: Publish DLLs for macOS
-      run: dotnet publish "Azure-Commitlog-Check/Azure-Commitlog-Check.csproj" -c Release -r osx-x64 --self-contained true -p:PublishSingleFile=false -o ./publish/osx-x64/dlls
-    
-    - name: Zip macOS DLLs
-      run: Compress-Archive -Path ./publish/osx-x64/dlls/* -DestinationPath ./publish/Azure-Commitlog-Check-osx-x64-dlls.zip
-      shell: pwsh
-
-    # 创建发布
+        dotnet-version: 8.0.x
+        
+    # 构建多个平台的版本
+    - name: Build All Platforms
+      run: |
+        # Windows x64
+        dotnet publish Azure-Commitlog-Check/Azure-Commitlog-Check/Azure-Commitlog-Check.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -o publish/win-x64
+        # Linux x64
+        dotnet publish Azure-Commitlog-Check/Azure-Commitlog-Check/Azure-Commitlog-Check.csproj -c Release -r linux-x64 --self-contained true -p:PublishSingleFile=true -o publish/linux-x64
+        # macOS x64
+        dotnet publish Azure-Commitlog-Check/Azure-Commitlog-Check/Azure-Commitlog-Check.csproj -c Release -r osx-x64 --self-contained true -p:PublishSingleFile=true -o publish/osx-x64
+      
+    # 打包各个平台的发布文件
+    - name: Create Platform Packages
+      run: |
+        cd publish
+        zip -r ../Azure-Commitlog-Check-${{ github.ref_name }}-win-x64.zip win-x64/*
+        zip -r ../Azure-Commitlog-Check-${{ github.ref_name }}-linux-x64.zip linux-x64/*
+        zip -r ../Azure-Commitlog-Check-${{ github.ref_name }}-osx-x64.zip osx-x64/*
+        
+    # 创建 Release
     - name: Create Release
-      id: create_release
       uses: softprops/action-gh-release@v1
       with:
         files: |
-          ./publish/Azure-Commitlog-Check-win-x64.zip
-          ./publish/Azure-Commitlog-Check-win-x64-dlls.zip
-          ./publish/Azure-Commitlog-Check-linux-x64.zip
-          ./publish/Azure-Commitlog-Check-linux-x64-dlls.zip
-          ./publish/Azure-Commitlog-Check-osx-x64.zip
-          ./publish/Azure-Commitlog-Check-osx-x64-dlls.zip
+          Azure-Commitlog-Check-${{ github.ref_name }}-win-x64.zip
+          Azure-Commitlog-Check-${{ github.ref_name }}-linux-x64.zip
+          Azure-Commitlog-Check-${{ github.ref_name }}-osx-x64.zip
         draft: false
         prerelease: false
         generate_release_notes: true
+        body: |
+          ## Azure-Commitlog-Check ${{ github.ref_name }}
+          
+          ### 下载
+          - Windows x64: [Azure-Commitlog-Check-${{ github.ref_name }}-win-x64.zip](https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/Azure-Commitlog-Check-${{ github.ref_name }}-win-x64.zip)
+          - Linux x64: [Azure-Commitlog-Check-${{ github.ref_name }}-linux-x64.zip](https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/Azure-Commitlog-Check-${{ github.ref_name }}-linux-x64.zip)
+          - macOS x64: [Azure-Commitlog-Check-${{ github.ref_name }}-osx-x64.zip](https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/Azure-Commitlog-Check-${{ github.ref_name }}-osx-x64.zip)
+          
+          ### 使用方法
+          1. 下载对应平台的压缩包
+          2. 解压缩
+          3. 配置 appsettings.json
+          4. 运行程序
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
