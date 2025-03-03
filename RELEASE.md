@@ -4,10 +4,10 @@
 
 ## 准备发布
 
-1. 确保所有需要包含在发布中的更改已经合并到`main`分支
-2. 在本地更新`main`分支：
+1. 确保所有需要包含在发布中的更改已经合并到`master`分支
+2. 在本地更新`master`分支：
    ```powershell
-   git checkout main
+   git checkout master
    git pull
    ```
 
