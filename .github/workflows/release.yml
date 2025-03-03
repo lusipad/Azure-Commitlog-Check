@@ -24,35 +24,66 @@ jobs:
     - name: Build
       run: dotnet build "Azure-Commitlog-Check/Azure-Commitlog-Check.csproj" --configuration Release --no-restore
     
-    - name: Publish for Windows
-      run: dotnet publish "Azure-Commitlog-Check/Azure-Commitlog-Check.csproj" -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -o ./publish/win-x64
+    # 单文件发布 - Windows    
+    - name: Publish for Windows (Single File)
+      run: dotnet publish "Azure-Commitlog-Check/Azure-Commitlog-Check.csproj" -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -o ./publish/win-x64/single-file
     
-    - name: Zip Windows build
-      run: Compress-Archive -Path ./publish/win-x64/* -DestinationPath ./publish/Azure-Commitlog-Check-win-x64.zip
+    - name: Zip Windows single-file build
+      run: Compress-Archive -Path ./publish/win-x64/single-file/* -DestinationPath ./publish/Azure-Commitlog-Check-win-x64.zip
       shell: pwsh
     
-    - name: Publish for Linux
-      run: dotnet publish "Azure-Commitlog-Check/Azure-Commitlog-Check.csproj" -c Release -r linux-x64 --self-contained true -p:PublishSingleFile=true -o ./publish/linux-x64
+    # DLL发布 - Windows
+    - name: Publish DLLs for Windows
+      run: dotnet publish "Azure-Commitlog-Check/Azure-Commitlog-Check.csproj" -c Release -r win-x64 --self-contained true -p:PublishSingleFile=false -o ./publish/win-x64/dlls
     
-    - name: Zip Linux build
-      run: Compress-Archive -Path ./publish/linux-x64/* -DestinationPath ./publish/Azure-Commitlog-Check-linux-x64.zip
+    - name: Zip Windows DLLs
+      run: Compress-Archive -Path ./publish/win-x64/dlls/* -DestinationPath ./publish/Azure-Commitlog-Check-win-x64-dlls.zip
       shell: pwsh
     
-    - name: Publish for macOS
-      run: dotnet publish "Azure-Commitlog-Check/Azure-Commitlog-Check.csproj" -c Release -r osx-x64 --self-contained true -p:PublishSingleFile=true -o ./publish/osx-x64
+    # 单文件发布 - Linux
+    - name: Publish for Linux (Single File)
+      run: dotnet publish "Azure-Commitlog-Check/Azure-Commitlog-Check.csproj" -c Release -r linux-x64 --self-contained true -p:PublishSingleFile=true -o ./publish/linux-x64/single-file
     
-    - name: Zip macOS build
-      run: Compress-Archive -Path ./publish/osx-x64/* -DestinationPath ./publish/Azure-Commitlog-Check-osx-x64.zip
+    - name: Zip Linux single-file build
+      run: Compress-Archive -Path ./publish/linux-x64/single-file/* -DestinationPath ./publish/Azure-Commitlog-Check-linux-x64.zip
+      shell: pwsh
+    
+    # DLL发布 - Linux
+    - name: Publish DLLs for Linux
+      run: dotnet publish "Azure-Commitlog-Check/Azure-Commitlog-Check.csproj" -c Release -r linux-x64 --self-contained true -p:PublishSingleFile=false -o ./publish/linux-x64/dlls
+    
+    - name: Zip Linux DLLs
+      run: Compress-Archive -Path ./publish/linux-x64/dlls/* -DestinationPath ./publish/Azure-Commitlog-Check-linux-x64-dlls.zip
+      shell: pwsh
+    
+    # 单文件发布 - macOS
+    - name: Publish for macOS (Single File)
+      run: dotnet publish "Azure-Commitlog-Check/Azure-Commitlog-Check.csproj" -c Release -r osx-x64 --self-contained true -p:PublishSingleFile=true -o ./publish/osx-x64/single-file
+    
+    - name: Zip macOS single-file build
+      run: Compress-Archive -Path ./publish/osx-x64/single-file/* -DestinationPath ./publish/Azure-Commitlog-Check-osx-x64.zip
       shell: pwsh
 
+    # DLL发布 - macOS
+    - name: Publish DLLs for macOS
+      run: dotnet publish "Azure-Commitlog-Check/Azure-Commitlog-Check.csproj" -c Release -r osx-x64 --self-contained true -p:PublishSingleFile=false -o ./publish/osx-x64/dlls
+    
+    - name: Zip macOS DLLs
+      run: Compress-Archive -Path ./publish/osx-x64/dlls/* -DestinationPath ./publish/Azure-Commitlog-Check-osx-x64-dlls.zip
+      shell: pwsh
+
+    # 创建发布
     - name: Create Release
       id: create_release
       uses: softprops/action-gh-release@v1
       with:
         files: |
           ./publish/Azure-Commitlog-Check-win-x64.zip
+          ./publish/Azure-Commitlog-Check-win-x64-dlls.zip
           ./publish/Azure-Commitlog-Check-linux-x64.zip
+          ./publish/Azure-Commitlog-Check-linux-x64-dlls.zip
           ./publish/Azure-Commitlog-Check-osx-x64.zip
+          ./publish/Azure-Commitlog-Check-osx-x64-dlls.zip
         draft: false
         prerelease: false
         generate_release_notes: true
