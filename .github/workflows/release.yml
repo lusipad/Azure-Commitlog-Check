@@ -23,11 +23,11 @@ jobs:
     - name: Build All Platforms
       run: |
         # Windows x64
-        dotnet publish Azure-Commitlog-Check/Azure-Commitlog-Check/Azure-Commitlog-Check.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -o publish/win-x64
+        dotnet publish Azure-Commitlog-Check/Azure-Commitlog-Check.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -o publish/win-x64
         # Linux x64
-        dotnet publish Azure-Commitlog-Check/Azure-Commitlog-Check/Azure-Commitlog-Check.csproj -c Release -r linux-x64 --self-contained true -p:PublishSingleFile=true -o publish/linux-x64
+        dotnet publish Azure-Commitlog-Check/Azure-Commitlog-Check.csproj -c Release -r linux-x64 --self-contained true -p:PublishSingleFile=true -o publish/linux-x64
         # macOS x64
-        dotnet publish Azure-Commitlog-Check/Azure-Commitlog-Check/Azure-Commitlog-Check.csproj -c Release -r osx-x64 --self-contained true -p:PublishSingleFile=true -o publish/osx-x64
+        dotnet publish Azure-Commitlog-Check/Azure-Commitlog-Check.csproj -c Release -r osx-x64 --self-contained true -p:PublishSingleFile=true -o publish/osx-x64
       
     # 打包各个平台的发布文件
     - name: Create Platform Packages
