@@ -1,18 +1,18 @@
 # Azure Commitlog Check
 
-这个扩展可以帮助您验证Azure DevOps中的Pull Request提交信息是否符合规范，特别适用于使用squash合并方式的团队。
+这个扩展可以帮助您验证 Azure DevOps 中的 Pull Request 提交信息是否符合规范，特别适用于使用 squash 合并方式的团队。
 
 ## 主要功能
 
-- **自动检测PR**：无需手动指定PR ID，可自动检测当前分支的PR
+- **自动检测 PR**：无需手动指定 PR ID，可自动检测当前分支的 PR
 - **自定义验证规则**：支持使用正则表达式自定义提交信息验证规则
-- **集成到CI/CD流程**：轻松集成到您的Azure Pipeline中
-- **支持构建验证策略**：可用作PR的构建验证策略，确保所有合并的代码都符合提交信息规范
+- **集成到 CI/CD 流程**：轻松集成到您的 Azure Pipeline 中
+- **支持构建验证策略**：可用作 PR 的构建验证策略，确保所有合并的代码都符合提交信息规范
 
 ## 快速开始
 
-1. 在您的Azure DevOps组织中安装此扩展
-2. 在您的Pipeline YAML文件中添加任务：
+1. 在您的 Azure DevOps 组织中安装此扩展
+2. 在您的 Pipeline YAML 文件中添加任务：
 
 ```yaml
 # azure-pipelines.yml 示例
@@ -49,8 +49,8 @@ steps:
 ## 注意事项
 
 - 确保在管道设置中启用了"允许脚本访问 OAuth 令牌"选项
-- 使用自动检测PR功能时，需要设置checkout步骤的fetchDepth为0
+- 使用自动检测 PR 功能时，需要设置 checkout 步骤的 fetchDepth 为 0
 
 ## 支持
 
-如果您遇到任何问题或有改进建议，请在我们的[GitHub仓库](https://github.com/YourGitHubUsername/Azure-Commitlog-Check/issues)提交issue。
+如果您遇到任何问题或有改进建议，请在我们的[GitHub 仓库](https://github.com/lusipad/Azure-Commitlog-Check/issues)提交 issue。

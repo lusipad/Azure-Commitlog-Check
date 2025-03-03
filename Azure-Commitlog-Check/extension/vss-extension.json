@@ -1,8 +1,8 @@
 {
-    "manifestVersion": 2,
+    "manifestVersion": 1,
     "id": "azure-commit-log-check",
     "name": "Azure commit log check",
-    "version": "1.1.0",
+    "version": "1.3.0",
     "publisher": "lusipad",
     "targets": [
         {
