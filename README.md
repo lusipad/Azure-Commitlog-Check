@@ -1,41 +1,43 @@
-# PRCommitChecker
+# Azure-Commitlog-Check
 
-一个用于检查Azure DevOps(TFS)中Pull Request的commit-log是否符合规范的工具，特别适用于使用squash提交方式的PR。
+[English](README.md) | [中文](README.zh-CN.md)
 
-## 主要功能
+A tool for checking whether commit messages in Azure DevOps (TFS) Pull Requests comply with standards, especially suitable for PRs using squash commit method.
 
-- 连接到Azure DevOps(TFS)服务
-- 获取指定PR的详细信息
-- 检查PR标题是否符合commit message规范
-- 支持自定义commit message规范的正则表达式模式
-- 自动检测当前分支的PR，无需手动指定PR ID
+## Key Features
 
-## 技术栈
+- Connect to Azure DevOps (TFS) services
+- Retrieve detailed information about specific PRs
+- Check if PR titles conform to commit message standards
+- Support custom commit message validation with regex patterns
+- **New Feature**: Automatically detect the PR of the current branch without manual PR ID specification
+
+## Tech Stack
 
 - .NET 8.0
-- Azure DevOps API 
-- System.CommandLine (命令行解析)
+- Azure DevOps API
+- System.CommandLine (command-line parsing)
 
-## 快速开始
+## Quick Start
 
-1. 克隆仓库
-2. 构建项目
+1. Clone the repository
+2. Build the project
    ```powershell
-   cd PRCommitChecker
+   cd Azure-Commitlog-Check
    dotnet build
    ```
-3. 运行检查
+3. Run the check
    ```powershell
    dotnet run -- --url "https://dev.azure.com/yourorganization" --token "your-pat-token" --project "your-project" --auto-detect
    ```
 
-## 详细文档
+## Detailed Documentation
 
-详细的使用说明和CI集成指南，请参考：
+For detailed instructions and CI integration guides, please refer to:
 
-- [使用说明](PRCommitChecker/README.md)
-- [CI集成指南](PRCommitChecker/CI_INTEGRATION_GUIDE.md)
+- [User Guide](Azure-Commitlog-Check/README.md)
+- [CI Integration Guide](Azure-Commitlog-Check/CI_INTEGRATION_GUIDE.md)
 
-## 许可证
+## License
 
-本项目采用 [MIT](LICENSE) 许可证
+This project is licensed under the [MIT](LICENSE) License
