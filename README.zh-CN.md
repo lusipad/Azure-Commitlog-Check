@@ -101,12 +101,6 @@ if ($prTitle -match "^已合并\s+PR\s+\d+:") { exit 0 } else { azcommitcheck --
 | 5    | Git 未安装            | 缺少 Git 环境变量             |
 | 6    | 分支无关联 PR         | 分支未与任何 PR 关联          |
 
-## 详细文档
-
-### 发布指南
-
-有关如何发布新版本的详细说明，请参考[发布指南](RELEASE.md)。
-
 ## GitHub Flow 和自动发布
 
 本项目使用 GitHub Flow 工作流和 GitHub Actions 实现自动发布：

@@ -103,10 +103,6 @@ if ($prTitle -match "^Merged\s+PR\s+\d+:") { exit 0 } else { azcommitcheck --aut
 
 ## Documentation
 
-### Release Guide
-
-For release instructions, please refer to [Release Guide](RELEASE.md).
-
 ## GitHub Flow & Automated Release
 
 This project uses GitHub Flow and automated releases through GitHub Actions:
