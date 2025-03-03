@@ -3,15 +3,25 @@
     "name": "AzureCommitlogCheck",
     "friendlyName": "Azure Commitlog Check",
     "description": "检查Azure DevOps PR的commit message是否符合规范",
-    "helpMarkDown": "[了解更多](https://github.com/your-repo/azure-commitlog-check)",
+    "helpMarkDown": "[了解更多](https://github.com/YourGitHubUsername/Azure-Commitlog-Check)",
     "category": "Utility",
-    "author": "Your Company",
+    "author": "YourCompany",
+    "preview": false,
+    "showEnvironmentVariables": false,
     "version": {
         "Major": 1,
         "Minor": 0,
         "Patch": 0
     },
+    "minimumAgentVersion": "2.144.0",
     "instanceNameFormat": "检查PR $(pullRequestId)的Commit Message",
+    "groups": [
+        {
+            "name": "advanced",
+            "displayName": "高级选项",
+            "isExpanded": false
+        }
+    ],
     "inputs": [
         {
             "name": "pattern",
@@ -19,7 +29,8 @@
             "label": "Commit Message Pattern",
             "defaultValue": "^(feat|fix|docs|style|refactor|perf|test|chore)(\\(.+\\))?: .{1,50}",
             "required": false,
-            "helpMarkDown": "用于验证commit message的正则表达式模式"
+            "helpMarkDown": "用于验证commit message的正则表达式模式",
+            "groupName": "advanced"
         },
         {
             "name": "autoDetect",
@@ -42,7 +53,8 @@
             "type": "string",
             "label": "仓库名称",
             "required": false,
-            "helpMarkDown": "仓库名称，用于自动检测PR时。如果留空，将尝试自动检测。"
+            "helpMarkDown": "仓库名称，用于自动检测PR时。如果留空，将尝试自动检测。",
+            "groupName": "advanced"
         }
     ],
     "execution": {
@@ -52,5 +64,12 @@
                 "windows"
             ]
         }
+    },
+    "messages": {
+        "CheckingPR": "正在检查PR #%s的提交信息",
+        "ValidationSuccess": "提交信息验证通过！",
+        "ValidationFailed": "提交信息验证失败！提交信息不符合规范：%s",
+        "NoPRFound": "未找到PR信息，请确认当前分支是否有关联的PR",
+        "ErrorOccurred": "发生错误：%s"
     }
 }

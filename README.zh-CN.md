@@ -111,6 +111,96 @@ if ($prTitle -match "^已合并\s+PR\s+\d+:") { exit 0 } else { azcommitcheck --
   - 为 Windows、Linux 和 macOS 创建发布包
   - 将打包好的文件发布到 GitHub Release
 
+## Azure DevOps Pipeline 集成
+
+本工具也可作为 Azure DevOps Pipeline 扩展使用，允许您在 CI/CD 工作流中自动检查提交信息。
+
+### 安装扩展
+
+1. 从 [Azure DevOps Marketplace](https://marketplace.visualstudio.com/) 安装 "Azure Commitlog Check" 扩展
+   - 搜索 "Azure Commitlog Check"
+   - 点击 "安装" 按钮将扩展添加到您的组织
+
+2. 为您的管道授予必要的权限
+   - 确保在管道设置中启用了 "允许脚本访问 OAuth 令牌" 选项
+
+### 开发者说明（仅用于扩展开发）
+
+如果您想要修改或自定义此扩展，请按照以下步骤操作：
+
+1. 构建项目并将可执行文件复制到扩展任务文件夹
+   ```powershell
+   # 构建项目
+   dotnet publish -c Debug -r win-x64 --self-contained false
+   
+   # 将可执行文件复制到扩展任务文件夹
+   copy Azure-Commitlog-Check\bin\Debug\net8.0\win-x64\Azure-Commitlog-Check.exe Azure-Commitlog-Check\extension\task\
+   ```
+
+2. 确保images目录中有扩展图标
+   ```powershell
+   # 如果不存在，创建 images 目录
+   mkdir -p Azure-Commitlog-Check\extension\images
+   
+   # 添加扩展图标
+   # 示例：copy your-icon.png Azure-Commitlog-Check\extension\images\extension-icon.png
+   ```
+
+3. 打包扩展
+   ```powershell
+   # 如果没有安装 TFS 跨平台命令行界面，请先安装
+   npm install -g tfx-cli
+   
+   # 打包扩展
+   cd Azure-Commitlog-Check\extension
+   tfx extension create --manifest-globs vss-extension.json
+   ```
+
+4. 将生成的 .vsix 文件上传到 Azure DevOps Marketplace
+
+### Pipeline YAML 示例
+
+```yaml
+# azure-pipelines.yml 示例
+trigger:
+- main
+- feature/*
+
+pool:
+  vmImage: 'windows-latest'
+
+steps:
+- checkout: self
+  fetchDepth: 0  # PR 自动检测正常工作所必需
+  
+# 确保为此任务启用 OAuth 令牌访问
+- task: AzureCommitlogCheck@1
+  inputs:
+    autoDetect: true  # 自动检测当前分支的 PR
+    # repository: 'MyRepository'  # 可选：如果自动检测有问题，请指定
+    pattern: '^(feat|fix|docs|style|refactor|perf|test|chore)(\(.+\))?: .{1,50}'  # 可选：自定义模式
+  env:
+    SYSTEM_ACCESSTOKEN: $(System.AccessToken)  # API 访问所需
+```
+
+### Pipeline 配置
+
+| 输入参数 | 描述 | 默认值 |
+|----------|------|--------|
+| autoDetect | 自动检测当前分支的 PR | true |
+| pullRequestId | 手动 PR ID（如果 autoDetect=true 则忽略） | |
+| repository | 用于自动检测的仓库名称 | 从环境变量自动检测 |
+| pattern | 验证用的正则表达式模式 | 标准模式 |
+
+### 所需的 Pipeline 权限
+
+为了使任务正常工作，您需要：
+
+1. 在管道设置中启用"允许脚本访问 OAuth 令牌"
+2. 授予构建服务帐户足够的权限以访问 Pull Request 信息
+
+![OAuth 设置](https://docs.microsoft.com/en-us/azure/devops/pipelines/build/media/options/allow-scripts-to-access-oauth-token.png?view=azure-devops)
+
 ## 许可证
 
 本项目使用[MIT](LICENSE)许可证

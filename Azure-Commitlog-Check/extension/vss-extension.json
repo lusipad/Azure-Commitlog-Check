@@ -1,18 +1,43 @@
 {
-    "manifestVersion": 1,
-    "id": "azure-commitlog-check",
-    "name": "Azure Commitlog Check",
-    "version": "1.0.0",
-    "publisher": "YourCompany",
+    "manifestVersion": 2,
+    "id": "azure-commit-log-check",
+    "name": "Azure commit log check",
+    "version": "1.1.0",
+    "publisher": "lusipad",
     "targets": [
         {
             "id": "Microsoft.VisualStudio.Services"
         }
     ],
-    "description": "检查Azure DevOps PR的commit message是否符合规范",
+    "description": "检查 Azure DevOps PR 的 commit message 是否符合规范，支持自定义规则和自动检测 PR",
     "categories": [
         "Azure Pipelines"
     ],
+    "tags": [
+        "PR",
+        "Pull Request",
+        "Commit",
+        "Validation",
+        "Pipeline",
+        "Build"
+    ],
+    "content": {
+        "details": {
+            "path": "overview.md"
+        }
+    },
+    "links": {
+        "getstarted": {
+            "uri": "https://github.com/lusipad/Azure-Commitlog-Check"
+        },
+        "support": {
+            "uri": "https://github.com/lusipad/Azure-Commitlog-Check/issues"
+        }
+    },
+    "repository": {
+        "type": "git",
+        "uri": "https://github.com/lusipad/Azure-Commitlog-Check"
+    },
     "icons": {
         "default": "images/extension-icon.png"
     },
@@ -36,5 +61,8 @@
                 "name": "task"
             }
         }
+    ],
+    "galleryFlags": [
+        "Public"
     ]
 }
