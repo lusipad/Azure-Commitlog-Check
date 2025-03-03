@@ -1,4 +1,4 @@
-# PR Commit Log 规范检查工具
+# Azure Commitlog Check 规范检查工具
 
 这是一个用于检查Azure DevOps(TFS)中Pull Request的commit-log是否符合规范的工具，特别适用于使用squash提交方式的PR。
 

@@ -11,7 +11,9 @@
     <PublishReadyToRun>true</PublishReadyToRun>
     <Version>1.0.0</Version>
     <Authors>Your Company</Authors>
-    <Description>检查Azure DevOps PR的commit-log是否符合规范</Description>
+    <Description>Azure DevOps PR的commit-log规范检查工具</Description>
+    <AssemblyName>Azure-Commitlog-Check</AssemblyName>
+    <RootNamespace>Azure_Commitlog_Check</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

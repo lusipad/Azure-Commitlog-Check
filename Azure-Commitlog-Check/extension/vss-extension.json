@@ -1,7 +1,7 @@
 {
     "manifestVersion": 1,
-    "id": "pr-commit-checker",
-    "name": "PR Commit Message Checker",
+    "id": "azure-commitlog-check",
+    "name": "Azure Commitlog Check",
     "version": "1.0.0",
     "publisher": "YourCompany",
     "targets": [
@@ -9,7 +9,7 @@
             "id": "Microsoft.VisualStudio.Services"
         }
     ],
-    "description": "检查PR的commit message是否符合规范",
+    "description": "检查Azure DevOps PR的commit message是否符合规范",
     "categories": [
         "Azure Pipelines"
     ],
@@ -27,7 +27,7 @@
     ],
     "contributions": [
         {
-            "id": "pr-commit-checker-task",
+            "id": "azure-commitlog-check-task",
             "type": "ms.vss-distributed-task.task",
             "targets": [
                 "ms.vss-distributed-task.tasks"

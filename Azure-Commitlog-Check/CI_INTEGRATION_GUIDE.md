@@ -1,4 +1,4 @@
-# PR Commit Checker CI集成指南
+# Azure Commitlog Check CI集成指南
 
 本文档提供了将PR Commit Checker工具集成到CI环境的详细说明。
 

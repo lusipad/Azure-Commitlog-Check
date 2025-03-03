@@ -40,19 +40,19 @@ stages:
         arguments: '--configuration $(buildConfiguration)'
         
     - task: DotNetCoreCLI@2
-      displayName: 'Publish PR Commit Checker'
+      displayName: 'Publish Azure Commitlog Check'
       inputs:
         command: 'publish'
         publishWebProjects: false
-        projects: '**/PRCommitChecker.csproj'
-        arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/CommitChecker'
+        projects: '**/AzureCommitlogCheck.csproj'
+        arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/CommitlogCheck'
         zipAfterPublish: true
         
     - task: PublishPipelineArtifact@1
-      displayName: 'Publish PR Commit Checker artifact'
+      displayName: 'Publish Azure Commitlog Check artifact'
       inputs:
-        targetPath: '$(Build.ArtifactStagingDirectory)/CommitChecker'
-        artifact: 'PRCommitChecker'
+        targetPath: '$(Build.ArtifactStagingDirectory)/CommitlogCheck'
+        artifact: 'AzureCommitlogCheck'
 
 - stage: CheckPR
   dependsOn: Build
@@ -65,8 +65,8 @@ stages:
       
     - task: DownloadPipelineArtifact@2
       inputs:
-        artifact: 'PRCommitChecker'
-        path: '$(Pipeline.Workspace)/PRCommitChecker'
+        artifact: 'AzureCommitlogCheck'
+        path: '$(Pipeline.Workspace)/AzureCommitlogCheck'
         
     - task: PowerShell@2
       displayName: 'Check PR Commit Message'
@@ -80,11 +80,11 @@ stages:
           
           Write-Host "检查PR commit message是否符合规范标准"
           
-          $toolPath = "$(Pipeline.Workspace)/PRCommitChecker/PRCommitChecker.zip"
-          Expand-Archive -Path $toolPath -DestinationPath "$(Pipeline.Workspace)/CommitCheckerTool" -Force
+          $toolPath = "$(Pipeline.Workspace)/AzureCommitlogCheck/AzureCommitlogCheck.zip"
+          Expand-Archive -Path $toolPath -DestinationPath "$(Pipeline.Workspace)/CommitlogCheckTool" -Force
           
           # 使用自动检测功能
-          $result = & "$(Pipeline.Workspace)/CommitCheckerTool/PRCommitChecker.exe" --url "$organization" --token "$token" --project "$project" --auto-detect --repository "$repository"
+          $result = & "$(Pipeline.Workspace)/CommitlogCheckTool/AzureCommitlogCheck.exe" --url "$organization" --token "$token" --project "$project" --auto-detect --repository "$repository"
           
           Write-Host $result
           

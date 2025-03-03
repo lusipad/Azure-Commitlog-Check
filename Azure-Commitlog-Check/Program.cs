@@ -10,7 +10,7 @@ using Microsoft.TeamFoundation.SourceControl.WebApi;
 using Microsoft.VisualStudio.Services.Common;
 using Microsoft.VisualStudio.Services.WebApi;
 
-namespace PRCommitChecker
+namespace Azure_Commitlog_Check
 {
     class Program
     {

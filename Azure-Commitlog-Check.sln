@@ -2,7 +2,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PRCommitChecker", "PRCommitChecker\PRCommitChecker.csproj", "{6BD6CED8-399D-D0C6-B756-29B4193F22B9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure-Commitlog-Check", "Azure-Commitlog-Check\Azure-Commitlog-Check.csproj", "{6BD6CED8-399D-D0C6-B756-29B4193F22B9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

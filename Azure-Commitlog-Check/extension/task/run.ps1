@@ -32,10 +32,10 @@ try {
     
     # 获取工具路径 - 假设工具已经被发布到代理上的特定位置
     # 对于实际使用，您可能需要将工具包含在扩展中，或从特定位置下载
-    $toolPath = Join-Path -Path $PSScriptRoot -ChildPath "PRCommitChecker.exe"
+    $toolPath = Join-Path -Path $PSScriptRoot -ChildPath "Azure-Commitlog-Check.exe"
     
     if (-not (Test-Path $toolPath)) {
-        Write-Host "##vso[task.logissue type=error]Could not find PR Commit Checker tool at $toolPath"
+        Write-Host "##vso[task.logissue type=error]Could not find Azure Commitlog Check tool at $toolPath"
         exit 1
     }
     

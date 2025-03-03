@@ -1,9 +1,9 @@
 {
     "id": "8a8f6d5e-f5d0-4e1b-8a0c-7c8d8a0e5e5e",
-    "name": "PRCommitChecker",
-    "friendlyName": "PR Commit Message Checker",
-    "description": "检查PR的commit message是否符合规范",
-    "helpMarkDown": "[了解更多](https://github.com/your-repo/pr-commit-checker)",
+    "name": "AzureCommitlogCheck",
+    "friendlyName": "Azure Commitlog Check",
+    "description": "检查Azure DevOps PR的commit message是否符合规范",
+    "helpMarkDown": "[了解更多](https://github.com/your-repo/azure-commitlog-check)",
     "category": "Utility",
     "author": "Your Company",
     "version": {
