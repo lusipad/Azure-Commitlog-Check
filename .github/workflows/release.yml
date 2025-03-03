@@ -1,0 +1,58 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*' # 当推送以 v 开头的标签时触发，例如 v1.0.0
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+    
+    - name: Restore dependencies
+      run: dotnet restore "Azure-Commitlog-Check/Azure-Commitlog-Check.csproj"
+    
+    - name: Build
+      run: dotnet build "Azure-Commitlog-Check/Azure-Commitlog-Check.csproj" --configuration Release --no-restore
+    
+    - name: Publish for Windows
+      run: dotnet publish "Azure-Commitlog-Check/Azure-Commitlog-Check.csproj" -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -o ./publish/win-x64
+    
+    - name: Zip Windows build
+      run: Compress-Archive -Path ./publish/win-x64/* -DestinationPath ./publish/Azure-Commitlog-Check-win-x64.zip
+      shell: pwsh
+    
+    - name: Publish for Linux
+      run: dotnet publish "Azure-Commitlog-Check/Azure-Commitlog-Check.csproj" -c Release -r linux-x64 --self-contained true -p:PublishSingleFile=true -o ./publish/linux-x64
+    
+    - name: Zip Linux build
+      run: Compress-Archive -Path ./publish/linux-x64/* -DestinationPath ./publish/Azure-Commitlog-Check-linux-x64.zip
+      shell: pwsh
+    
+    - name: Publish for macOS
+      run: dotnet publish "Azure-Commitlog-Check/Azure-Commitlog-Check.csproj" -c Release -r osx-x64 --self-contained true -p:PublishSingleFile=true -o ./publish/osx-x64
+    
+    - name: Zip macOS build
+      run: Compress-Archive -Path ./publish/osx-x64/* -DestinationPath ./publish/Azure-Commitlog-Check-osx-x64.zip
+      shell: pwsh
+
+    - name: Create Release
+      id: create_release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          ./publish/Azure-Commitlog-Check-win-x64.zip
+          ./publish/Azure-Commitlog-Check-linux-x64.zip
+          ./publish/Azure-Commitlog-Check-osx-x64.zip
+        draft: false
+        prerelease: false
+        generate_release_notes: true

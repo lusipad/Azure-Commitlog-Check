@@ -37,6 +37,19 @@ For detailed instructions and CI integration guides, please refer to:
 
 - [User Guide](Azure-Commitlog-Check/README.md)
 - [CI Integration Guide](Azure-Commitlog-Check/CI_INTEGRATION_GUIDE.md)
+- [Release Guide](RELEASE.md)
+
+## GitHub Flow & Automated Release
+
+This project uses GitHub Flow and automated releases through GitHub Actions:
+
+- **Continuous Integration**: Automatically runs builds and tests on pull requests to main branch
+- **Automated Releases**: When a version tag (e.g., v1.0.0) is pushed, GitHub Actions automatically:
+  - Builds the project
+  - Creates release packages for Windows, Linux, and macOS
+  - Publishes a new GitHub Release with the packaged files
+
+To release a new version, see the [Release Guide](RELEASE.md) for details.
 
 ## License
 

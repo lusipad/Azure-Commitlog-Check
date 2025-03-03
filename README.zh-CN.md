@@ -37,6 +37,19 @@
 
 - [使用说明](Azure-Commitlog-Check/README.md)
 - [CI集成指南](Azure-Commitlog-Check/CI_INTEGRATION_GUIDE.md)
+- [发布指南](RELEASE.md)
+
+## GitHub Flow和自动发布
+
+本项目使用GitHub Flow工作流和GitHub Actions实现自动发布：
+
+- **持续集成**：在向main分支提交Pull Request时自动运行构建和测试
+- **自动发布**：当推送版本标签（如v1.0.0）时，GitHub Actions会自动：
+  - 构建项目
+  - 为Windows、Linux和macOS创建发布包
+  - 将打包好的文件发布到GitHub Release
+
+关于如何发布新版本，请查看[发布指南](RELEASE.md)了解详情。
 
 ## 许可证
 
